@@ -214,10 +214,8 @@ var AppComponent = /** @class */ (function () {
             update[newPostkey] = JSON.parse(JSON.stringify(result));
             update[newPostkey]['id'] = newPostkey;
             update['addedOn'] = new Date().toDateString();
-            _this.database.ref('airdrops/').update(update)
-                .then(function (success) {
-                _this.displaySuccess('Successfully Added');
-            });
+            _this.database.ref('airdrops/').update(update);
+            _this.displaySuccess('Successfully Added');
         });
     };
     AppComponent.prototype.randomString = function (length, chars) {

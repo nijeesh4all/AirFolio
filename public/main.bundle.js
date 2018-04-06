@@ -207,6 +207,7 @@ var AppComponent = /** @class */ (function () {
         var _this = this;
         var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_3__airdrop_add_pop_up_airdrop_add_pop_up_component__["a" /* AirdropAddPopUpComponent */], {
             width: '95%',
+            height: '80%'
         });
         dialogRef.afterClosed().subscribe(function (result) {
             var update = {};

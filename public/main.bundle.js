@@ -185,9 +185,12 @@ var AppComponent = /** @class */ (function () {
         this.tokens = [];
         this.airdrops = {};
         this.config = {
-            apiKey: 'AIzaSyDfeuS7jrsMShlFu05Ezk8crWicPEy6cIE',
-            authDomain: 'https://airfolio-app.firebaseio.com/',
-            databaseURL: 'https://airfolio-app.firebaseio.com/',
+            apiKey: 'AIzaSyB5xKtuEpyNuQ6Z0moK22zPgR7a8Kc9Qy0',
+            authDomain: 'airfolio2-bead4.firebaseapp.com',
+            databaseURL: 'https://airfolio2-bead4.firebaseio.com',
+            projectId: 'airfolio2-bead4',
+            storageBucket: 'airfolio2-bead4.appspot.com',
+            messagingSenderId: '4773109964'
         };
         __WEBPACK_IMPORTED_MODULE_4_firebase__["initializeApp"](this.config);
         this.database = __WEBPACK_IMPORTED_MODULE_4_firebase__["database"]();

@@ -674,7 +674,7 @@ module.exports = ".action-btn {\r\n  position: absolute;\r\n}\r\n.delete {\r\n  
 /***/ "./src/app/publish-list-item/publish-list-item.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "    <mat-card style='max-width:450px;width:450px;min-width:250px'  [ngClass]='{\"puffOut\" :puffOut}'>\n\n        <div class='ribbon ribbon-red' *ngIf='token.publised'><span>Published</span></div>\n\n        <div class='overlay'*ngIf='removed'></div>\n        <button (click)='remove()' class='action-btn delete' mat-icon-button>\n            <mat-icon color='warn' >delete</mat-icon>\n        </button>\n\n        <button (click)='editData()' class='action-btn edit' mat-icon-button>\n            <mat-icon  >mode_edit</mat-icon>\n        </button>\n\n        <div class='message' *ngIf='message'>{{message}}</div>\n\n        <mat-slide-toggle color='warn' [checked]='slidervalue' (change)='publish_toggle($event)' style=\"position: absolute;top: 45%;right: 5px;\"></mat-slide-toggle>\n\n        <div class=\"thumbnail\">\n      <div class=\"caption\">\n        <h3>{{token.name}}</h3>\n        <p class=\"flex-text text-muted\">&nbsp;{{token.symbol}} </p>\n\n        <p *ngIf='!registeredClicked && !registered && !token.ref_url'><a (click)='registeredClicked = true'  mat-raised-button color=\"warn\" target='_blank' href=\"{{token.reg_url}}\">Register</a></p>\n        <p *ngIf='registeredClicked && !registered && !token.ref_url'>\n            <mat-form-field  class=\"example-full-width\">\n                <input matInput placeholder=\"referral\" #referralInput type='url'>\n              </mat-form-field>\n              <button mat-button (click)='addrefferal(referralInput.value)' color=\"primary\">Save</button>\n              <button mat-icon-button color='warn' (click)='registeredClicked = false' ><mat-icon  >cancel</mat-icon></button>\n        </p>\n\n        <p *ngIf='token.ref_url || registered'>Successfully Registered on {{token.ref_addedon | date}}</p>\n\n      </div>\n      <!-- /.caption -->\n    </div>\n    <!-- /.thumbnail -->\n  </mat-card>\n"
+module.exports = "    <mat-card style='max-width:95%;width:95%;' [style.minWidth.px]='getMinWidth()' [ngClass]='{\"puffOut\" :puffOut}'>\n\n        <div class='ribbon ribbon-red' *ngIf='token.publised'><span>Published</span></div>\n\n        <div class='overlay'*ngIf='removed'></div>\n        <button (click)='remove()' class='action-btn delete' mat-icon-button>\n            <mat-icon color='warn' >delete</mat-icon>\n        </button>\n\n        <button (click)='editData()' class='action-btn edit' mat-icon-button>\n            <mat-icon  >mode_edit</mat-icon>\n        </button>\n\n        <div class='message' *ngIf='message'>{{message}}</div>\n\n        <mat-slide-toggle color='warn' [checked]='slidervalue' (change)='publish_toggle($event)' style=\"position: absolute;top: 45%;right: 5px;\"></mat-slide-toggle>\n\n        <div class=\"thumbnail\">\n      <div class=\"caption\">\n        <h3>{{token.name}}</h3>\n        <p class=\"flex-text text-muted\">&nbsp;{{token.symbol}} </p>\n\n        <p *ngIf='!registeredClicked && !registered && !token.ref_url'><a (click)='registeredClicked = true'  mat-raised-button color=\"warn\" target='_blank' href=\"{{token.reg_url}}\">Register</a></p>\n        <p *ngIf='registeredClicked && !registered && !token.ref_url'>\n            <mat-form-field  class=\"example-full-width\">\n                <input matInput placeholder=\"referral\" #referralInput type='url'>\n              </mat-form-field>\n              <button mat-button (click)='addrefferal(referralInput.value)' color=\"primary\">Save</button>\n              <button mat-icon-button color='warn' (click)='registeredClicked = false' ><mat-icon  >cancel</mat-icon></button>\n        </p>\n\n        <p *ngIf='token.ref_url || registered'>Successfully Registered on {{token.ref_addedon | date}}</p>\n\n      </div>\n      <!-- /.caption -->\n    </div>\n    <!-- /.thumbnail -->\n  </mat-card>\n"
 
 /***/ }),
 
@@ -783,6 +783,12 @@ var PublishListItemComponent = /** @class */ (function () {
             this.registered = true;
         }
     };
+    PublishListItemComponent.prototype.getMinWidth = function () {
+        if (window.innerWidth < 500) {
+            return window.innerWidth * .9;
+        }
+        return 450;
+    };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
         __metadata("design:type", Object)
@@ -828,7 +834,7 @@ module.exports = ".parent {\r\n  position: relative;\r\n}\r\n.child {\r\n  posit
 /***/ "./src/app/publish/publish.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-progress-bar *ngIf='airdrops_to_publish.length < 1' mode=\"indeterminate\"></mat-progress-bar>\n<mat-grid-list [cols]='cols' rowHeight=\"300px\">\n  <mat-grid-tile colspan='1' *ngFor='let airdrop of airdrops_to_publish'>\n      <app-publish-list-item  (edited)='update_edited($event)' (referralAdded)='add_referral($event)'  [token]='airdrop' (published)='changePublish($event)' (deleted)='removeFromFirebase($event)'></app-publish-list-item>\n  </mat-grid-tile>\n</mat-grid-list>\n\n"
+module.exports = "<mat-progress-bar *ngIf='airdrops_to_publish.length < 1' mode=\"indeterminate\"></mat-progress-bar>\n<mat-grid-list [cols]='cols' rowHeight=\"{{getHeight()}}\">\n  <mat-grid-tile colspan='1' *ngFor='let airdrop of airdrops_to_publish'>\n      <app-publish-list-item  (edited)='update_edited($event)' (referralAdded)='add_referral($event)'  [token]='airdrop' (published)='changePublish($event)' (deleted)='removeFromFirebase($event)'></app-publish-list-item>\n  </mat-grid-tile>\n</mat-grid-list>\n\n"
 
 /***/ }),
 
@@ -865,7 +871,7 @@ var PublishComponent = /** @class */ (function () {
         var that = this;
         setInterval(function () {
             if (that.airdrops_to_publish.length > 1) {
-                that.cols = Math.ceil((window.innerWidth - 100) / 600);
+                that.cols = Math.ceil((window.innerWidth - 100) / 490);
             }
         }, 1000);
     };
@@ -902,6 +908,14 @@ var PublishComponent = /** @class */ (function () {
             }
             console.log(_this.airdrops_to_publish);
         });
+    };
+    PublishComponent.prototype.getHeight = function () {
+        if (window.innerWidth <= 450) {
+            return 200;
+        }
+        else {
+            return 300;
+        }
     };
     PublishComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({

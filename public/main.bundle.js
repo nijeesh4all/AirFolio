@@ -17,6 +17,162 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 
 /***/ }),
 
+/***/ "./src/app/add-steps/add-steps.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ".steps-showcase{\r\n  border: solid 1px gray;\r\n  height: 300px;\r\n  width: 98%;\r\n  overflow: scroll;\r\n}\r\n"
+
+/***/ }),
+
+/***/ "./src/app/add-steps/add-steps.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\n  <div class=\"col-sm-10 steps-showcase\" >\n    <div *ngFor='let step of steps;let i = index'>\n        <div class=\"row\">\n          <div class=\"col-sm-2\">\n              Step {{i+1}}\n          </div>\n          <div class=\"col-sm-9\">\n              <app-add-steps-item [index]='i' (deleted)='delete($event)' (saved)='save($event)'  [data]='step'></app-add-steps-item>\n          </div>\n        </div>\n    </div>\n  </div>\n  <div class=\"col-sm-2\">\n    <div class=\"row align-items-start\">\n        <button (click)='addANewStep()' style=\"background-color: darkgray\" mat-fab><i class=\"material-icons\">add</i></button>\n     </div>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/add-steps/add-steps.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddStepsComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var AddStepsComponent = /** @class */ (function () {
+    function AddStepsComponent() {
+        this.data = {
+            title: '',
+            url: ''
+        };
+        this.steps = [];
+        this.newStepAdded = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+    }
+    AddStepsComponent.prototype.ngOnInit = function () {
+    };
+    AddStepsComponent.prototype.addANewStep = function () {
+        this.steps.push(this.data);
+    };
+    AddStepsComponent.prototype.delete = function (index) {
+    };
+    AddStepsComponent.prototype.save = function (data) {
+        this.steps[data.index] = ({
+            title: data.title,
+            url: data.url
+        });
+        this.newStepAdded.emit(this.steps);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* Output */])(),
+        __metadata("design:type", Object)
+    ], AddStepsComponent.prototype, "newStepAdded", void 0);
+    AddStepsComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-add-steps',
+            template: __webpack_require__("./src/app/add-steps/add-steps.component.html"),
+            styles: [__webpack_require__("./src/app/add-steps/add-steps.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], AddStepsComponent);
+    return AddStepsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/add-steps/addStepItem.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StepItemComponetComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var StepItemComponetComponent = /** @class */ (function () {
+    function StepItemComponetComponent() {
+        this.saved = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.deleted = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.error = '';
+    }
+    StepItemComponetComponent.prototype.save = function (title, url) {
+        if (!title) {
+            return (this.error = 'Tittle must be set');
+        }
+        if (url) {
+            if (!this.isvalidUrl(url)) {
+                return (this.error = 'url Must be properly formated');
+            }
+        }
+        var object = {
+            title: title,
+            url: ((url && url.length > 0) ? url : null),
+            index: this.index
+        };
+        this.saved.emit(object);
+    };
+    StepItemComponetComponent.prototype.delete = function () {
+        this.deleted.emit(this.index);
+    };
+    StepItemComponetComponent.prototype.isvalidUrl = function (url) {
+        var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+        var regex = new RegExp(expression);
+        return (url.match(regex));
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Object)
+    ], StepItemComponetComponent.prototype, "index", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Object)
+    ], StepItemComponetComponent.prototype, "data", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* Output */])(),
+        __metadata("design:type", Object)
+    ], StepItemComponetComponent.prototype, "saved", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* Output */])(),
+        __metadata("design:type", Object)
+    ], StepItemComponetComponent.prototype, "deleted", void 0);
+    StepItemComponetComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-add-steps-item',
+            template: __webpack_require__("./src/app/add-steps/stepItem.component.html"),
+            styles: [__webpack_require__("./src/app/add-steps/add-steps.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], StepItemComponetComponent);
+    return StepItemComponetComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/add-steps/stepItem.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<mat-card>\r\n  <div class=\"alert alert-danger\" *ngIf='error'>{{error}}</div>\r\n  <mat-form-field class=\"example-full-width\">\r\n      <input matInput placeholder=\"Title of the Step\"  #title [value]=\"data.title\">\r\n    </mat-form-field>\r\n\r\n    <mat-form-field class=\"example-full-width\">\r\n        <input matInput placeholder=\"Url to Follow\" #url [value]=\"data.url\">\r\n      </mat-form-field>\r\n\r\n      <button (click)='save(title.value,url.value)' style=\"background-color: teal\" mat-raised-button>Save</button>\r\n    </mat-card>\r\n<br>\r\n\r\n"
+
+/***/ }),
+
 /***/ "./src/app/airdrop-add-pop-up/airdrop-add-pop-up.component.css":
 /***/ (function(module, exports) {
 
@@ -27,7 +183,7 @@ module.exports = "mat-panel-title{\r\n  display: block;\r\n  text-align: center;
 /***/ "./src/app/airdrop-add-pop-up/airdrop-add-pop-up.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"alert alert-danger\" *ngIf=\"error\">{{error}}</div>\r\n<div class=\"alert alert-success\" *ngIf=\"success\">{{success}}</div>\r\n\r\n<div style=\"background:wheat\">\r\n  <mat-accordion class=\"example-headers-align\">\r\n\r\n\r\n    <mat-expansion-panel [expanded]=\"step === 0\" (opened)=\"setStep(0)\" hideToggle=\"true\">\r\n      <mat-expansion-panel-header>\r\n        <mat-panel-title>\r\n          Airdrop Details\r\n        </mat-panel-title>\r\n      </mat-expansion-panel-header>\r\n\r\n      <form [formGroup]='detailsForm' class='row'>\r\n        <mat-form-field class='col'>\r\n          <input matInput placeholder=\"Airdrop Name\" required formControlName=\"name\">\r\n        </mat-form-field>\r\n\r\n\r\n        <mat-form-field class='col'>\r\n          <input matInput placeholder=\"Token Symbol\" #input (input)=\"input.value=$event.target.value.toUpperCase()\" formControlName=\"symbol\">\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class='col'>\r\n          <mat-select placeholder=\"Difficulty\" formControlName=\"difficulty\" required>\r\n            <mat-option value=\"1\" style=\"background-color: green ;color:indigo\"> Easy </mat-option>\r\n            <mat-option value=\"2\" style=\"background-color: yellow;color:indigo\"> Medium </mat-option>\r\n            <mat-option value=\"3\" style=\"background-color: orange;color:indigo\"> Hard </mat-option>\r\n            <mat-option value=\"4\" style=\"background-color: red;color:indigo\"> Insane </mat-option>\r\n          </mat-select>\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class='col'>\r\n          <input matInput placeholder=\"Referral link\" type=\"url\" required formControlName=\"ref_url\">\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class='col'>\r\n          <input matInput placeholder=\"Airdrop LOGO Url\" type=\"url\" formControlName=\"icon_url\">\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class='col'>\r\n          <input matInput placeholder=\"Website\" type=\"url\" formControlName=\"website\">\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class='col'>\r\n          <input matInput placeholder=\"Estimated Value in USD\" formControlName=\"value\">\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class='col'>\r\n          <input matInput [owlDateTime]=\"dt1\" [owlDateTimeTrigger]=\"dt1\" placeholder=\"Ending Date Time\" formControlName=\"endDate\">\r\n          <owl-date-time #dt1></owl-date-time>\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class=\"example-full-width\" style=\"min-width: 100%;\">\r\n          <textarea matInput formControlName=\"decription\" placeholder=\"Enter the description of the airdrop\"></textarea>\r\n        </mat-form-field>\r\n\r\n        <div class=\"row\">\r\n          <div class=\"col col-5\" [innerHTML]='htmlText.value'>\r\n          </div>\r\n          <div class=\"col col-6\">\r\n            <mat-form-field class=\"example-full-width\" >\r\n              <textarea matInput style=\"min-width: 600px;min-height: 200px\" #htmlText formControlName=\"steps_html\"  [value]='steps_html' placeholder=\"HTML for the description\"></textarea>\r\n            </mat-form-field>\r\n          </div>\r\n        </div>\r\n\r\n\r\n      </form>\r\n      <mat-action-row>\r\n        <button mat-button color=\"primary\" (click)=\"nextStep()\">Next</button>\r\n      </mat-action-row>\r\n    </mat-expansion-panel>\r\n\r\n    <mat-expansion-panel [expanded]=\"step === 1\" (opened)=\"setStep(1)\" hideToggle=\"true\">\r\n      <mat-expansion-panel-header>\r\n        <mat-panel-title>\r\n          Type\r\n        </mat-panel-title>\r\n      </mat-expansion-panel-header>\r\n\r\n      <form [formGroup]=\"typeForm\">\r\n        <section class=\"type checkbox-grid\">\r\n          <mat-checkbox class=\"example-margin\" value=\"airdrop\" formControlName=\"airdrop\">Airdrop</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin\" value=\"reffer\" formControlName=\"reffer\">Reffer</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin\" value=\"contest\" formControlName=\"contest\">Contest</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin\" value=\"bounty\" formControlName=\"bounty\">Bounty</mat-checkbox>\r\n\r\n        </section>\r\n      </form>\r\n      <mat-action-row>\r\n        <button mat-button color=\"warn\" (click)=\"prevStep()\">Previous</button>\r\n        <button mat-button color=\"primary\" (click)=\"nextStep()\">Next</button>\r\n      </mat-action-row>\r\n    </mat-expansion-panel>\r\n\r\n    <mat-expansion-panel [expanded]=\"step === 2\" (opened)=\"setStep(2)\" hideToggle=\"true\">\r\n      <mat-expansion-panel-header>\r\n        <mat-panel-title>\r\n          Requirements\r\n        </mat-panel-title>\r\n      </mat-expansion-panel-header>\r\n      <form [formGroup]='requirementsForm'>\r\n\r\n\r\n        <label for=\"general\" class='general'>General\r\n          <i class=\"fab fa-info\"></i>\r\n        </label>\r\n        <section class=\"type row general\">\r\n          <mat-checkbox class=\"example-margin col\" value=\"kyc\" formControlName=\"kyc\">KYC</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" value=\"eth\" formControlName=\"eth_wallet\">ETH address</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" value=\"mail\" formControlName=\"mail\">Mail</mat-checkbox>\r\n        </section>\r\n\r\n        <label for=\"telegram\" class='telegram'>Telegram\r\n          <i class=\"fab fa-telegram\"></i>\r\n        </label>\r\n\r\n        <section class=\"type row telegram\">\r\n\r\n          <mat-checkbox class=\"example-margin col\" value=\"telegram_group\" #telegram formControlName=\"telegram\">Group</mat-checkbox>\r\n          <mat-form-field *ngIf='telegram.checked' class='col'>\r\n            <input matInput placeholder=\"Group Link\" type=\"url\" [required]='telegram.checked' formControlName=\"telegram_group_url\">\r\n          </mat-form-field>\r\n\r\n          <mat-checkbox class=\"example-margin col\" value=\"telegram_channel\" #telegramChannel formControlName=\"telegram_channel\">Channel</mat-checkbox>\r\n          <mat-form-field *ngIf='telegramChannel.checked' class='col'>\r\n            <input matInput placeholder=\"Group Link\" type=\"url\" [required]='telegramChannel.checked' formControlName=\"telegram_channel_link\">\r\n          </mat-form-field>\r\n\r\n        </section>\r\n\r\n        <label for=\"facebook\" class='facebook'>Facebook\r\n          <i class=\"fab fa-facebook\"></i>\r\n        </label>\r\n        <section class=\"type row facebook\">\r\n          <mat-checkbox class=\"example-margin col\" #fbLike value=\"facebook_like\" formControlName=\"facebook\">Like</mat-checkbox>&nbsp;&nbsp;&nbsp;\r\n          <mat-checkbox class=\"example-margin col\" #fbShare value=\"facebook_share\" formControlName=\"facebook_share\">Share</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #fbComment value=\"facebook_comment\" formControlName=\"facebook_comment\">Comment</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #fbPost value=\"facebook_post\" formControlName=\"facebook_post\">Post</mat-checkbox>\r\n        </section>\r\n        <section class=\"type row facebook\">\r\n          <mat-form-field *ngIf='fbLike.checked || fbShare.checked || fbComment.checked' class='col'>\r\n            <input matInput placeholder=\"Facebook Link\" type=\"url\" [required]='fbLike.checked || fbShare.checked || fbComment.checked' formControlName=\"facebook_url\">\r\n          </mat-form-field>\r\n\r\n          <mat-form-field *ngIf='fbPost.checked' class='col'>\r\n            <textarea matInput placeholder=\"Content To Post\" [required]='fbPost.checked' value='Anything About ICO' formControlName=\"fb_post_content\"></textarea>\r\n          </mat-form-field>\r\n        </section>\r\n\r\n\r\n        <label for=\"twitter\" class='twitter'>Twitter\r\n          <i class=\"fab fa-twitter\"></i>\r\n        </label>\r\n        <section class=\"type row twitter\">\r\n          <mat-checkbox class=\"example-margin col\" #twitterFollow value=\"twitter_follow\" formControlName=\"twitter_url\">Follow</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #twitterRetweet value=\"twitter_retweet\" formControlName=\"twitter_tweet\">Retweet</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #twitterTweet value=\"twitter_tweet\" formControlName=\"twitter_retweet\">Tweet</mat-checkbox>\r\n        </section>\r\n        <section class=\"type row twitter\">\r\n          <mat-form-field *ngIf='twitterFollow.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='twitterFollow.checked' formControlName=\"twitter_url\">\r\n          </mat-form-field>\r\n          <mat-form-field *ngIf='twitterRetweet.checked' class='col'>\r\n            <input matInput placeholder=\"Post Url\" type=\"url\" [required]='twitterRetweet.checked' value='Pinned Tweet' formControlName=\"twitter_post\">\r\n          </mat-form-field>\r\n          <mat-form-field *ngIf='twitterTweet.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='twitterTweet.checked' value='Anything About ICO' formControlName=\"twitter_post_content\">\r\n          </mat-form-field>\r\n        </section>\r\n\r\n\r\n        <label for=\"misc\" class='misc'>Misc\r\n          <i class=\"fab fa-codepen\"></i>\r\n        </label>\r\n        <section class=\"misc row\">\r\n          <mat-checkbox class=\"example-margin col\" #reddit value=\"reddit\" formControlName=\"reddit\">Reddit</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #medium value=\"medium\" formControlName=\"medium\">Medium</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #youtube value=\"youtube\" formControlName=\"youtube\">Youtube</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #btctalk value=\"bitcointalk\" formControlName=\"bitcointalk\">Bitcoin Talk</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #steemit value=\"Steemit\" formControlName=\"steemit\">Steemit</mat-checkbox>\r\n        </section>\r\n        <section class=\"misc row\">\r\n          <mat-form-field *ngIf='reddit.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='reddit.checked' formControlName=\"reddit_link\">\r\n          </mat-form-field>\r\n          <mat-form-field *ngIf='medium.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='medium.checked' formControlName=\"medium_link\">\r\n          </mat-form-field>\r\n          <mat-form-field *ngIf='youtube.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='youtube.checked' formControlName=\"youtube_link\">\r\n          </mat-form-field>\r\n          <mat-form-field *ngIf='btctalk.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='btctalk.checked' formControlName=\"bitcointalk_link\">\r\n          </mat-form-field>\r\n          <mat-form-field *ngIf='steemit.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='reddit.checked' formControlName=\"steemit_link\">\r\n          </mat-form-field>\r\n        </section>\r\n\r\n      </form>\r\n\r\n      <mat-action-row>\r\n        <button mat-button color=\"warn\" (click)=\"prevStep()\">Previous</button>\r\n        <button mat-button color=\"primary\" (click)=\"nextStep();submit()\">Submit</button>\r\n      </mat-action-row>\r\n    </mat-expansion-panel>\r\n\r\n  </mat-accordion>\r\n</div>\r\n"
+module.exports = "<div class=\"alert alert-danger\" *ngIf=\"error\">{{error}}</div>\r\n<div class=\"alert alert-success\" *ngIf=\"success\">{{success}}</div>\r\n\r\n<div style=\"background:wheat\">\r\n  <mat-accordion class=\"example-headers-align\">\r\n\r\n\r\n    <mat-expansion-panel [expanded]=\"step === 0\" (opened)=\"setStep(0)\" hideToggle=\"true\">\r\n      <mat-expansion-panel-header>\r\n        <mat-panel-title>\r\n          Airdrop Details\r\n        </mat-panel-title>\r\n      </mat-expansion-panel-header>\r\n\r\n      <form [formGroup]='detailsForm' class='row'>\r\n        <mat-form-field class='col'>\r\n          <input matInput placeholder=\"Airdrop Name\" required formControlName=\"name\">\r\n        </mat-form-field>\r\n\r\n\r\n        <mat-form-field class='col'>\r\n          <input matInput placeholder=\"Token Symbol\" #input (input)=\"input.value=$event.target.value.toUpperCase()\" formControlName=\"symbol\">\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class='col'>\r\n          <mat-select placeholder=\"Difficulty\" formControlName=\"difficulty\" required>\r\n            <mat-option value=\"1\" style=\"background-color: green ;color:indigo\"> Easy </mat-option>\r\n            <mat-option value=\"2\" style=\"background-color: yellow;color:indigo\"> Medium </mat-option>\r\n            <mat-option value=\"3\" style=\"background-color: orange;color:indigo\"> Hard </mat-option>\r\n            <mat-option value=\"4\" style=\"background-color: red;color:indigo\"> Insane </mat-option>\r\n          </mat-select>\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class='col'>\r\n          <input matInput placeholder=\"Referral link\" type=\"url\" required formControlName=\"ref_url\">\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class='col'>\r\n          <input matInput placeholder=\"Airdrop LOGO Url\" type=\"url\" formControlName=\"icon_url\">\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class='col'>\r\n          <input matInput placeholder=\"Website\" type=\"url\" formControlName=\"website\">\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class='col'>\r\n          <input matInput placeholder=\"Estimated Value in USD\" formControlName=\"value\">\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class='col'>\r\n          <input matInput [owlDateTime]=\"dt1\" [owlDateTimeTrigger]=\"dt1\" placeholder=\"Ending Date Time\" formControlName=\"endDate\">\r\n          <owl-date-time #dt1></owl-date-time>\r\n        </mat-form-field>\r\n\r\n        <mat-form-field class=\"example-full-width\" style=\"min-width: 100%;\">\r\n          <textarea matInput formControlName=\"decription\" placeholder=\"Enter the description of the airdrop\"></textarea>\r\n        </mat-form-field>\r\n\r\n        <div class=\"container\">\r\n          <div class=\"row\">\r\n            <div class=\"col-sm\" [innerHTML]='steps_html'>\r\n\r\n            </div>\r\n            <div class=\"col-sm\">\r\n              <app-add-steps (newStepAdded)='newStepAdded($event)' ></app-add-steps>\r\n            </div>\r\n          </div>\r\n        </div>\r\n\r\n\r\n      </form>\r\n      <mat-action-row>\r\n        <button mat-button color=\"primary\" (click)=\"nextStep()\">Next</button>\r\n      </mat-action-row>\r\n    </mat-expansion-panel>\r\n\r\n    <mat-expansion-panel [expanded]=\"step === 1\" (opened)=\"setStep(1)\" hideToggle=\"true\">\r\n      <mat-expansion-panel-header>\r\n        <mat-panel-title>\r\n          Type\r\n        </mat-panel-title>\r\n      </mat-expansion-panel-header>\r\n\r\n      <form [formGroup]=\"typeForm\">\r\n        <section class=\"type checkbox-grid\">\r\n          <mat-checkbox class=\"example-margin\" value=\"airdrop\" formControlName=\"airdrop\">Airdrop</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin\" value=\"reffer\" formControlName=\"reffer\">Reffer</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin\" value=\"contest\" formControlName=\"contest\">Contest</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin\" value=\"bounty\" formControlName=\"bounty\">Bounty</mat-checkbox>\r\n\r\n        </section>\r\n      </form>\r\n      <mat-action-row>\r\n        <button mat-button color=\"warn\" (click)=\"prevStep()\">Previous</button>\r\n        <button mat-button color=\"primary\" (click)=\"nextStep()\">Next</button>\r\n      </mat-action-row>\r\n    </mat-expansion-panel>\r\n\r\n    <mat-expansion-panel [expanded]=\"step === 2\" (opened)=\"setStep(2)\" hideToggle=\"true\">\r\n      <mat-expansion-panel-header>\r\n        <mat-panel-title>\r\n          Requirements\r\n        </mat-panel-title>\r\n      </mat-expansion-panel-header>\r\n      <form [formGroup]='requirementsForm'>\r\n\r\n\r\n        <label for=\"general\" class='general'>General\r\n          <i class=\"fab fa-info\"></i>\r\n        </label>\r\n        <section class=\"type row general\">\r\n          <mat-checkbox class=\"example-margin col\" value=\"kyc\" formControlName=\"kyc\">KYC</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" value=\"eth\" formControlName=\"eth_wallet\">ETH address</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" value=\"mail\" formControlName=\"mail\">Mail</mat-checkbox>\r\n        </section>\r\n\r\n        <label for=\"telegram\" class='telegram'>Telegram\r\n          <i class=\"fab fa-telegram\"></i>\r\n        </label>\r\n\r\n        <section class=\"type row telegram\">\r\n\r\n          <mat-checkbox class=\"example-margin col\" value=\"telegram_group\" #telegram formControlName=\"telegram\">Group</mat-checkbox>\r\n          <mat-form-field *ngIf='telegram.checked' class='col'>\r\n            <input matInput placeholder=\"Group Link\" type=\"url\" [required]='telegram.checked' formControlName=\"telegram_group_url\">\r\n          </mat-form-field>\r\n\r\n          <mat-checkbox class=\"example-margin col\" value=\"telegram_channel\" #telegramChannel formControlName=\"telegram_channel\">Channel</mat-checkbox>\r\n          <mat-form-field *ngIf='telegramChannel.checked' class='col'>\r\n            <input matInput placeholder=\"Group Link\" type=\"url\" [required]='telegramChannel.checked' formControlName=\"telegram_channel_link\">\r\n          </mat-form-field>\r\n\r\n        </section>\r\n\r\n        <label for=\"facebook\" class='facebook'>Facebook\r\n          <i class=\"fab fa-facebook\"></i>\r\n        </label>\r\n        <section class=\"type row facebook\">\r\n          <mat-checkbox class=\"example-margin col\" #fbLike value=\"facebook_like\" formControlName=\"facebook\">Like</mat-checkbox>&nbsp;&nbsp;&nbsp;\r\n          <mat-checkbox class=\"example-margin col\" #fbShare value=\"facebook_share\" formControlName=\"facebook_share\">Share</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #fbComment value=\"facebook_comment\" formControlName=\"facebook_comment\">Comment</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #fbPost value=\"facebook_post\" formControlName=\"facebook_post\">Post</mat-checkbox>\r\n        </section>\r\n        <section class=\"type row facebook\">\r\n          <mat-form-field *ngIf='fbLike.checked || fbShare.checked || fbComment.checked' class='col'>\r\n            <input matInput placeholder=\"Facebook Link\" type=\"url\" [required]='fbLike.checked || fbShare.checked || fbComment.checked' formControlName=\"facebook_url\">\r\n          </mat-form-field>\r\n\r\n          <mat-form-field *ngIf='fbPost.checked' class='col'>\r\n            <textarea matInput placeholder=\"Content To Post\" [required]='fbPost.checked' value='Anything About ICO' formControlName=\"fb_post_content\"></textarea>\r\n          </mat-form-field>\r\n        </section>\r\n\r\n\r\n        <label for=\"twitter\" class='twitter'>Twitter\r\n          <i class=\"fab fa-twitter\"></i>\r\n        </label>\r\n        <section class=\"type row twitter\">\r\n          <mat-checkbox class=\"example-margin col\" #twitterFollow value=\"twitter_follow\" formControlName=\"twitter_url\">Follow</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #twitterRetweet value=\"twitter_retweet\" formControlName=\"twitter_tweet\">Retweet</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #twitterTweet value=\"twitter_tweet\" formControlName=\"twitter_retweet\">Tweet</mat-checkbox>\r\n        </section>\r\n        <section class=\"type row twitter\">\r\n          <mat-form-field *ngIf='twitterFollow.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='twitterFollow.checked' formControlName=\"twitter_url\">\r\n          </mat-form-field>\r\n          <mat-form-field *ngIf='twitterRetweet.checked' class='col'>\r\n            <input matInput placeholder=\"Post Url\" type=\"url\" [required]='twitterRetweet.checked' value='Pinned Tweet' formControlName=\"twitter_post\">\r\n          </mat-form-field>\r\n          <mat-form-field *ngIf='twitterTweet.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='twitterTweet.checked' value='Anything About ICO' formControlName=\"twitter_post_content\">\r\n          </mat-form-field>\r\n        </section>\r\n\r\n\r\n        <label for=\"misc\" class='misc'>Misc\r\n          <i class=\"fab fa-codepen\"></i>\r\n        </label>\r\n        <section class=\"misc row\">\r\n          <mat-checkbox class=\"example-margin col\" #reddit value=\"reddit\" formControlName=\"reddit\">Reddit</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #medium value=\"medium\" formControlName=\"medium\">Medium</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #youtube value=\"youtube\" formControlName=\"youtube\">Youtube</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #btctalk value=\"bitcointalk\" formControlName=\"bitcointalk\">Bitcoin Talk</mat-checkbox>\r\n          <mat-checkbox class=\"example-margin col\" #steemit value=\"Steemit\" formControlName=\"steemit\">Steemit</mat-checkbox>\r\n        </section>\r\n        <section class=\"misc row\">\r\n          <mat-form-field *ngIf='reddit.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='reddit.checked' formControlName=\"reddit_link\">\r\n          </mat-form-field>\r\n          <mat-form-field *ngIf='medium.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='medium.checked' formControlName=\"medium_link\">\r\n          </mat-form-field>\r\n          <mat-form-field *ngIf='youtube.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='youtube.checked' formControlName=\"youtube_link\">\r\n          </mat-form-field>\r\n          <mat-form-field *ngIf='btctalk.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='btctalk.checked' formControlName=\"bitcointalk_link\">\r\n          </mat-form-field>\r\n          <mat-form-field *ngIf='steemit.checked' class='col'>\r\n            <input matInput placeholder=\"Page Url\" type=\"url\" [required]='reddit.checked' formControlName=\"steemit_link\">\r\n          </mat-form-field>\r\n        </section>\r\n\r\n      </form>\r\n\r\n      <mat-action-row>\r\n        <button mat-button color=\"warn\" (click)=\"prevStep()\">Previous</button>\r\n        <button mat-button color=\"primary\" (click)=\"nextStep();submit()\">Submit</button>\r\n      </mat-action-row>\r\n    </mat-expansion-panel>\r\n\r\n  </mat-accordion>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -60,6 +216,7 @@ var AirdropAddPopUpComponent = /** @class */ (function () {
         this.data = data;
         this.step = 0;
         this.steps_html = '';
+        this.steps_array = [];
         this.typeForm = new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* FormGroup */]({
             airdrop: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormControl */](),
             reffer: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormControl */](),
@@ -76,7 +233,6 @@ var AirdropAddPopUpComponent = /** @class */ (function () {
             value: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormControl */](),
             endDate: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormControl */](),
             decription: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormControl */](),
-            steps_html: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormControl */](),
         });
         this.requirementsForm = new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* FormGroup */]({
             kyc: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormControl */](),
@@ -146,7 +302,13 @@ var AirdropAddPopUpComponent = /** @class */ (function () {
         var airdrop_object = JSON.parse(JSON.stringify(this.detailsForm.value));
         airdrop_object['type'] = this.typeForm.value;
         airdrop_object['requirements'] = this.requirementsForm.value;
+        airdrop_object['steps'] = this.steps_array;
+        console.log(airdrop_object);
         this.dialogRef.close(airdrop_object);
+    };
+    AirdropAddPopUpComponent.prototype.newStepAdded = function (steps) {
+        console.log(steps);
+        this.steps_array = steps;
     };
     AirdropAddPopUpComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -236,12 +398,16 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_platform_browser_animations__ = __webpack_require__("./node_modules/@angular/platform-browser/esm5/animations.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_ng_pick_datetime__ = __webpack_require__("./node_modules/ng-pick-datetime/picker.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_time_ago_pipe__ = __webpack_require__("./node_modules/time-ago-pipe/esm5/time-ago-pipe.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__add_steps_add_steps_component__ = __webpack_require__("./src/app/add-steps/add-steps.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__add_steps_addStepItem_component__ = __webpack_require__("./src/app/add-steps/addStepItem.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -271,7 +437,9 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_9__publish_publish_component__["a" /* PublishComponent */],
                 __WEBPACK_IMPORTED_MODULE_10__publish_list_item_publish_list_item_component__["a" /* PublishListItemComponent */],
                 __WEBPACK_IMPORTED_MODULE_11__home_component_home_component_component__["a" /* HomeComponent */],
-                __WEBPACK_IMPORTED_MODULE_5__confirm_dialog_confirm_dialog_component__["a" /* ConfirmDialogComponent */]
+                __WEBPACK_IMPORTED_MODULE_5__confirm_dialog_confirm_dialog_component__["a" /* ConfirmDialogComponent */],
+                __WEBPACK_IMPORTED_MODULE_16__add_steps_add_steps_component__["a" /* AddStepsComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__add_steps_addStepItem_component__["a" /* StepItemComponetComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
